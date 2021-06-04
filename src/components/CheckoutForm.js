@@ -1,75 +1,112 @@
-import React, { useState } from "react";
+import React from "react";
 
-const initialValue = {
-  firstName: "",
-  lastName: "",
-  address: "",
-  city: "",
-  state: "",
-  zip: "",
-};
 
 // This form should be handled by a "useForm" custom hook
 // Build out the logic needed for a form custom hook (see the useForm.js file)
 // and replace the necessary stateful logic from CheckoutForm with the hook
 
-const CheckoutForm = (props) => {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [values, setValues] = useState(initialValue);
+class CheckoutForm extends React.Component {
 
-  const handleChanges = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  state = {
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
   };
 
-  const handleSubmit = (e) => {
+  /*[showSuccessMessage, setShowSuccessMessage] = setState(false);
+  [values, setValues] = useState()*/
+
+  handleChanges = (e) => {
+    const {name, value} = e.target;
+    this.setState({
+      [name]:value
+    })
+    
+  };
+
+  handleSubmit = (e) => {
     e.preventDefault();
-    setShowSuccessMessage(true);
+    /*setShowSuccessMessage(true);*/
   };
 
+  //Life Cycle
+  componentDidMount(){
+    this.formData = JSON.parse(localStorage.getItem('form'))
+
+    if(localStorage.getItem('form')){
+      this.setState({
+        firstName: this.formData.firstName,
+    lastName: this.formData.lastName,
+    address: this.formData.address,
+    city: this.formData.city,
+    state: this.formData.state,
+    zip: this.formData.zip,
+      })
+
+    }else{
+        this.setState({
+          firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+        })
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState){
+    localStorage.setItem('form', JSON.stringify(nextState))
+  }
+
+  render(){
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <h2>Checkout Form</h2>
         <label>
           First Name:
           <input
             name="firstName"
-            value={values.firstName}
-            onChange={handleChanges}
+            value={this.state.firstName}
+            onChange={this.handleChanges}
           />
         </label>
         <label>
           Last Name:
           <input
             name="lastName"
-            value={values.lastName}
-            onChange={handleChanges}
+            value={this.state.lastName}
+            onChange={this.handleChanges}
           />
         </label>
         <label>
           Address:
           <input
             name="address"
-            value={values.address}
-            onChange={handleChanges}
+            value={this.state.address}
+            onChange={this.handleChanges}
           />
         </label>
         <label>
           City:
-          <input name="city" value={values.city} onChange={handleChanges} />
+          <input name="city" value={this.state.city} onChange={this.handleChanges} />
         </label>
         <label>
           State:
-          <input name="state" value={values.state} onChange={handleChanges} />
+          <input name="state" value={this.state.state} onChange={this.handleChanges} />
         </label>
         <label>
           Zip:
-          <input name="zip" value={values.zip} onChange={handleChanges} />
+          <input name="zip" value={this.state.zip} onChange={this.handleChanges} />
         </label>
         <button>Checkout</button>
       </form>
 
-      {showSuccessMessage && (
+      {/*{showSuccessMessage && (
         <div className="success-message" data-testid="successMessage">
           <p>
             You have ordered some plants! Woo-hoo! <span role="img">🎉</span>
@@ -78,16 +115,17 @@ const CheckoutForm = (props) => {
           <br />
           <br />
           <p>
-            {values.firstName} {values.lastName}
+            {this.state.firstName} {this.state.lastName}
           </p>
-          <p>{values.address}</p>
+          <p>{this.state.address}</p>
           <p>
-            {values.city}, {values.state} {values.zip}
-          </p>
+            {this.state.city}, {this.state.state} {this.state.zip}
+      </p>
         </div>
-      )}
+      )}*/}
     </>
   );
+  };
 };
 
 export default CheckoutForm;
