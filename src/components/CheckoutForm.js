@@ -14,22 +14,26 @@ class CheckoutForm extends React.Component {
     city: "",
     state: "",
     zip: "",
+    formError:(null),
+    formSuccess:(null)
   };
-
-  /*[showSuccessMessage, setShowSuccessMessage] = setState(false);
-  [values, setValues] = useState()*/
 
   handleChanges = (e) => {
     const {name, value} = e.target;
     this.setState({
       [name]:value
     })
-    
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = (e, error) => {
     e.preventDefault();
-    /*setShowSuccessMessage(true);*/
+
+    if(error){
+      this.setState({formError: true, formSuccess: false});
+    }
+    else{
+      this.setState({formError: false, formSuccess: true});
+    }
   };
 
   //Life Cycle
@@ -65,7 +69,7 @@ class CheckoutForm extends React.Component {
   render(){
   return (
     <>
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} success={this.state.formSuccess} error={this.state.formError}>
         <h2>Checkout Form</h2>
         <label>
           First Name:
@@ -105,24 +109,23 @@ class CheckoutForm extends React.Component {
         </label>
         <button>Checkout</button>
       </form>
-      {/*{showSuccessMessage && (
-        <div className="success-message" data-testid="successMessage">
-          <p>
-            You have ordered some plants! Woo-hoo! <span role="img">🎉</span>
-          </p>
-          <p>Your new green friends will be shipped to:</p>
-          <br />
-          <br />
-          <p>
-            {this.state.firstName} {this.state.lastName}
-          </p>
-          <p>{this.state.address}</p>
-          <p>
-            {this.state.city}, {this.state.state} {this.state.zip}
+      {/*<message success content= {<div className="success-message" data-testid="successMessage">
+      <p>
+        You have ordered some plants! Woo-hoo! <span role="img">🎉</span>
+      </p>
+      <p>Your new green friends will be shipped to:</p>
+      <br />
+      <br />
+      <p>
+        {this.state.firstName} {this.state.lastName}
+      </p>
+      <p>{this.state.address}</p>
+      <p>
+        {this.state.city}, {this.state.state} {this.state.zip}
       </p>
         </div>
-      )}*/}
-    </>
+        } />*/}
+      </>
   );
   };
 };
