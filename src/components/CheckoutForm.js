@@ -105,7 +105,6 @@ class CheckoutForm extends React.Component {
         </label>
         <button>Checkout</button>
       </form>
-
       {/*{showSuccessMessage && (
         <div className="success-message" data-testid="successMessage">
           <p>
